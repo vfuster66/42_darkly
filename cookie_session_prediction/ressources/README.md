@@ -19,7 +19,7 @@ Ce hash correspond au format MD5 suivant l'expression régulière :
 Cela m'a suggéré qu'il s'agit d'un **hash MD5** et qu'il peut être **décrypté**.
 
 ## 3. Décryptage du MD5
-J'ai utilisé l'outil [dcode.fr](https://www.dcode.fr) pour décrypter le hash.
+J'ai utilisé l'outil [crackstation](https://crackstation.net/) pour décrypter le hash.
 
 ### **Décryptage du MD5**
 ```plaintext
