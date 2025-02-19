@@ -21,7 +21,7 @@ Cela m'a permis de réveler la liste des images.
 ```
 Cela m'a permis de révéler les schémas et les noms de tables dans la base de données, y compris une table intéressante appelée `list_images`.
 
-
+![Deuxième injection](images/2.png)
 
 ### **Requête pour lire les colonnes de list_images**
 ```sql
