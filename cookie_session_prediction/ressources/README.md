@@ -43,7 +43,7 @@ document.cookie = "I_am_admin=b326b5062b2f0e69046810717534cb09";
 
 Puis, j'ai rafraîchi la page et j'ai immédiatement eu accès à l'interface administrateur, ce qui m'a permis de **voler la session admin** et de récupérer le **flag**.
 
-![Flag](03.png)
+![Flag](images/03.png)
 
 ## 5. Impact de la faille
 Cette vulnérabilité permet à un attaquant de :
