@@ -1,7 +1,3 @@
-### ✅ **Flag trouvé : `46910d9ce35b385885a9f7e2b336249d622f29b267a1771fbacf52133beddba8`**
-
----
-
 # Exploitation de la faille d'Upload de Fichier
 
 ## 1. Introduction
